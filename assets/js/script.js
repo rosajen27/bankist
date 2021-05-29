@@ -102,3 +102,13 @@ const movementsDescriptions = movements.map(function (movement, i) {
     return `Movement ${i + 1}: You withdrew ${Math.abs(movement)}`;
   }
 });
+
+////////// Computing Usernames
+const createUsernames = function (allAccounts) {
+  allAccounts.forEach(function (individualAccount) {
+    individualAccount.username = individualAccount.owner.toLowerCase().split(" ").map(function (name) {
+      return name[0];
+    }).join("");
+  });
+};
+createUsernames(accounts);
