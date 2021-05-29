@@ -117,3 +117,9 @@ createUsernames(accounts);
 const deposits = movements.filter(function(movement) {
 	return movement > 0;
 });
+
+////////// Filter out deposits to only display withdrawals
+const withdrawals = movements.filter(function(movement) {
+	return movement < 0;
+});
+console.log(withdrawals);
