@@ -1,10 +1,6 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// BANKIST APP
-
-// Data
+////////// DATA //////////
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -35,7 +31,8 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-// Elements
+
+////////// ELEMENTS //////////
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -60,16 +57,15 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 const displayMovements = function (movements) {
-
   // empty the entire container before adding new movements
   containerMovements.innerHTML = "";
-  
+
   movements.forEach(function (movement, index) {
-
     const type = movement > 0 ? 'deposit' : 'withdrawal';
-
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
@@ -77,18 +73,13 @@ const displayMovements = function (movements) {
       <div class="movements__value">${movement}</div>
     </div>
     `;
-
     // insert new child element 'html' right after the beginning of the parent element 'containerMovements'
     containerMovements.insertAdjacentHTML("afterbegin", html)
-
   });
 };
-
 displayMovements(account1.movements);
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -98,4 +89,16 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-/////////////////////////////////////////////////
+////////// 1 EURO = 1.22 USD
+const eurToUSD = 1.22;
+const movementsUSD = movements.map(function (movement) {
+  return movement * eurToUSD;
+});
+
+const movementsDescriptions = movements.map(function (movement, i) {
+  if (movement > 0) {
+    return `Movement ${i + 1}: You deposited ${movement}`;
+  } else {
+    return `Movement ${i + 1}: You withdrew ${Math.abs(movement)}`;
+  }
+});
