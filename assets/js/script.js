@@ -122,4 +122,3 @@ const deposits = movements.filter(function(movement) {
 const withdrawals = movements.filter(function(movement) {
 	return movement < 0;
 });
-console.log(withdrawals);
