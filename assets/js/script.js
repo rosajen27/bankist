@@ -114,11 +114,21 @@ const createUsernames = function (allAccounts) {
 createUsernames(accounts);
 
 ////////// Filter out withdrawals to only display deposits
-const deposits = movements.filter(function(movement) {
-	return movement > 0;
+const deposits = movements.filter(function (movement) {
+  return movement > 0;
 });
 
 ////////// Filter out deposits to only display withdrawals
-const withdrawals = movements.filter(function(movement) {
-	return movement < 0;
+const withdrawals = movements.filter(function (movement) {
+  return movement < 0;
 });
+
+////////// Reduce add multiple values (deposits and withdrawals) to determine global balance of the account with an initial value of 0
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce(function (accumulator, currentValue, i, arr) {
+    return accumulator + currentValue;
+  }, 0);
+
+  labelBalance.textContent = `${balance} €`
+};
+calcPrintBalance(account1.movements);
