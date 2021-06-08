@@ -132,3 +132,15 @@ const calcPrintBalance = function (movements) {
   labelBalance.textContent = `${balance} €`
 };
 calcPrintBalance(account1.movements);
+
+// Take all the movement deposits then convert them from Euros to Dollars and add them all up in order to view total balance
+const totalDepositsUSD = movements
+  .filter(function (movement) {
+    return movement > 0;
+  }).map(function (movement) {
+    return movement * eurToUSD;
+  }).reduce(function (accumulator, movement) {
+    return accumulator + movement;
+  }, 0);
+
+console.log(totalDepositsUSD);
