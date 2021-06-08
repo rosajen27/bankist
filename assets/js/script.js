@@ -68,9 +68,9 @@ const displayMovements = function (movements) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
+      <div class="movements__type movements__type--${type}">${index + 1}. ${type}</div>
       <div class="movements__date">DATE</div>
-      <div class="movements__value">${movement}</div>
+      <div class="movements__value">${movement}€</div>
     </div>
     `;
     // insert new child element 'html' right after the beginning of the parent element 'containerMovements'
@@ -133,7 +133,7 @@ const calcPrintBalance = function (movements) {
 };
 calcPrintBalance(account1.movements);
 
-// Take all the movement deposits then convert them from Euros to Dollars and add them all up in order to view total balance
+////////// Take all the movement deposits then convert them from Euros to Dollars and add them all up in order to view total balance
 const totalDepositsUSD = movements
   .filter(function (movement) {
     return movement > 0;
@@ -143,4 +143,41 @@ const totalDepositsUSD = movements
     return accumulator + movement;
   }, 0);
 
-console.log(totalDepositsUSD);
+////////// Display deposits & withdrawals and interest summary
+const calcDisplaySummary = function (movements) {
+
+  // display deposits
+  const incomes = movements.filter(function (movement) {
+    return movement > 0;
+  }).reduce(function (accumulator, movement) {
+    return accumulator + movement
+  }, 0);
+
+  labelSumIn.textContent = `${incomes}€`;
+
+  // display withdrawals
+  const out = movements.filter(function (movement) {
+    return movement < 0;
+  }).reduce(function (accumulator, movement) {
+    return accumulator + movement
+  }, 0);
+
+  // remove the negative sign by using the absolute value
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  // display interest at current average of 0.04%
+  // int = added interest
+  const interest = movements.filter(function (movement) {
+    return movement > 0;
+  }).map(function (deposit) {
+    return deposit * 0.04 / 100;
+  }).filter(function (int) {
+    return int >= 1;
+  }).reduce(function (accumulator, int) {
+    return accumulator + int;
+  }, 0);
+
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcDisplaySummary(account1.movements);
