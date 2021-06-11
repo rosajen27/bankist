@@ -196,6 +196,11 @@ btnLogin.addEventListener("click", function (event) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
     containerApp.style.opacity = 100;
 
+    // clear input fields
+    inputLoginUsername.value = "";
+    inputLoginPin.value = "";
+    inputLoginPin.blur();
+
     // display movements 
     displayMovements(currentAccount.movements);
 
