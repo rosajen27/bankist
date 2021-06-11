@@ -208,7 +208,7 @@ btnLogin.addEventListener("click", function (event) {
     calcPrintBalance(currentAccount.movements);
 
     // display summary
-    calcDisplaySummary(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
   }
 
 });
