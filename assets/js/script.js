@@ -77,7 +77,7 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html)
   });
 };
-displayMovements(account1.movements);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -131,7 +131,6 @@ const calcPrintBalance = function (movements) {
 
   labelBalance.textContent = `${balance} €`
 };
-calcPrintBalance(account1.movements);
 
 ////////// Take all the movement deposits - convert them from Euros to Dollars and add them all up in order to view total balance
 const totalDepositsUSD = movements
@@ -180,30 +179,31 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
-calcDisplaySummary(account1.movements);
-
 ////////// Event Handler
 let currentAccount;
 
-btnLogin.addEventListener("click", function(event) {
+btnLogin.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
   event.preventDefault();
 
-  currentAccount = accounts.find(function(account) {
+  currentAccount = accounts.find(function (account) {
     return account.username === inputLoginUsername.value
   });
   console.log(currentAccount);
 
-  if(currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+  if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
     // display UI and welcome message
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
     containerApp.style.opacity = 100;
 
     // display movements 
+    displayMovements(currentAccount.movements);
 
     // display balance
+    calcPrintBalance(currentAccount.movements);
 
     // display summary
+    calcDisplaySummary(currentAccount.movements);
   }
 
 });
