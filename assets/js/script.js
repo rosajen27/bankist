@@ -143,10 +143,10 @@ const totalDepositsUSD = movements
   }, 0);
 
 ////////// Display deposits & withdrawals and interest summary
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (account) {
 
   // display deposits
-  const incomes = movements.filter(function (movement) {
+  const incomes = account.movements.filter(function (movement) {
     return movement > 0;
   }).reduce(function (accumulator, movement) {
     return accumulator + movement
@@ -155,7 +155,7 @@ const calcDisplaySummary = function (movements) {
   labelSumIn.textContent = `${incomes}€`;
 
   // display withdrawals
-  const out = movements.filter(function (movement) {
+  const out = account.movements.filter(function (movement) {
     return movement < 0;
   }).reduce(function (accumulator, movement) {
     return accumulator + movement
@@ -164,12 +164,12 @@ const calcDisplaySummary = function (movements) {
   // remove the negative sign by using the absolute value
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
-  // display interest at current average of 0.04%
+  // display interest
   // int = added interest
-  const interest = movements.filter(function (movement) {
+  const interest = account.movements.filter(function (movement) {
     return movement > 0;
   }).map(function (deposit) {
-    return deposit * 0.04 / 100;
+    return deposit * acccount.interestRate / 100;
   }).filter(function (int) {
     return int >= 1;
   }).reduce(function (accumulator, int) {
