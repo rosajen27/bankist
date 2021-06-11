@@ -169,7 +169,7 @@ const calcDisplaySummary = function (account) {
   const interest = account.movements.filter(function (movement) {
     return movement > 0;
   }).map(function (deposit) {
-    return deposit * acccount.interestRate / 100;
+    return deposit * account.interestRate / 100;
   }).filter(function (int) {
     return int >= 1;
   }).reduce(function (accumulator, int) {
