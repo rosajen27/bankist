@@ -87,7 +87,7 @@ nav {
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
 
-  /* fade in/out anumation */
+  /* fade in/out animation */
   opacity: 0;
   transition: all 1s;
 }

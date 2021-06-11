@@ -30,9 +30,9 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-////////// ELEMENTS //////////
+////////// ELEMENTS
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -89,7 +89,7 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-////////// 1 EURO = 1.22 USD
+////////// Convert 1 Euro = 1.22 USD
 const eurToUSD = 1.22;
 const movementsUSD = movements.map(function (movement) {
   return movement * eurToUSD;
@@ -133,7 +133,7 @@ const calcPrintBalance = function (movements) {
 };
 calcPrintBalance(account1.movements);
 
-////////// Take all the movement deposits then convert them from Euros to Dollars and add them all up in order to view total balance
+////////// Take all the movement deposits - convert them from Euros to Dollars and add them all up in order to view total balance
 const totalDepositsUSD = movements
   .filter(function (movement) {
     return movement > 0;
@@ -181,3 +181,29 @@ const calcDisplaySummary = function (movements) {
 };
 
 calcDisplaySummary(account1.movements);
+
+////////// Event Handler
+let currentAccount;
+
+btnLogin.addEventListener("click", function(event) {
+  // prevent form from submitting (page reload)
+  event.preventDefault();
+
+  currentAccount = accounts.find(function(account) {
+    return account.username === inputLoginUsername.value
+  });
+  console.log(currentAccount);
+
+  if(currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+    // display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
+    containerApp.style.opacity = 100;
+
+    // display movements 
+
+    // display balance
+
+    // display summary
+  }
+
+});
