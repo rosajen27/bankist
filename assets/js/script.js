@@ -124,10 +124,12 @@ const withdrawals = movements.filter(function (movement) {
 });
 
 ////////// Reduce add multiple values (deposits and withdrawals) to determine global balance of the account with an initial value of 0
-const calcPrintBalance = function (movements) {
-  const balance = movements.reduce(function (accumulator, currentValue, i, arr) {
+const calcPrintBalance = function (account) {
+  const balance = account.movements.reduce(function (accumulator, currentValue, i, arr) {
     return accumulator + currentValue;
   }, 0);
+
+  account.balance = balance;
 
   labelBalance.textContent = `${balance} €`
 };
@@ -179,6 +181,18 @@ const calcDisplaySummary = function (account) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
+////////// Update UI
+const updateUI = function (account) {
+  // display movements 
+  displayMovements(account.movements);
+
+  // display balance
+  calcPrintBalance(account);
+
+  // display summary
+  calcDisplaySummary(account);
+};
+
 ////////// Event Handler
 let currentAccount;
 
@@ -189,7 +203,6 @@ btnLogin.addEventListener("click", function (event) {
   currentAccount = accounts.find(function (account) {
     return account.username === inputLoginUsername.value
   });
-  console.log(currentAccount);
 
   if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
     // display UI and welcome message
@@ -201,14 +214,43 @@ btnLogin.addEventListener("click", function (event) {
     inputLoginPin.value = "";
     inputLoginPin.blur();
 
-    // display movements 
-    displayMovements(currentAccount.movements);
-
-    // display balance
-    calcPrintBalance(currentAccount.movements);
-
-    // display summary
-    calcDisplaySummary(currentAccount);
+    updateUI(currentAccount);
   }
 
+});
+
+////////// Transfers
+btnTransfer.addEventListener("click", function (event) {
+  // prevent form from submitting (page reload)
+  event.preventDefault();
+
+  // amount of money the user is transfering
+  const amount = Number(inputTransferAmount.value);
+
+  // find account where the username is equal to the 'transfer to' value in the form
+  const recieverAccount = accounts.find(function (account) {
+    return account.username === inputTransferTo.value;
+  });
+
+  // clear input fields
+  inputTransferTo.value = "";
+  inputTransferAmount.value = "";
+
+  // transfer can only happen if amount is greather than 0
+  // the current user needs to have enough money to execute the transfer
+  // user should also not be able to transfer money to own account
+  if (
+    amount > 0 &&
+    recieverAccount &&
+    currentAccount.balance >= amount &&
+    recieverAccount.username !== currentAccount.username
+  ) {
+    // subtract amount transfered from current account
+    currentAccount.movements.push(-amount);
+    // add amount transfered from current account to reciever account
+    recieverAccount.movements.push(amount);
+
+    // update UI
+    updateUI(currentAccount);
+  }
 });
