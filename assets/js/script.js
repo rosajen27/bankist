@@ -230,9 +230,17 @@ btnClose.addEventListener("click", function (event) {
     const index = accounts.findIndex(function (account) {
       return account.username === currentAccount.username;
     });
-    
+
+    // Delete account
     accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
   }
+
+  // clear input fields
+  inputCloseUsername.value = "";
+  inputClosePin.value = "";
 });
 
 ////////// Transfers
