@@ -193,7 +193,7 @@ const updateUI = function (account) {
   calcDisplaySummary(account);
 };
 
-////////// Event Handler
+////////// Log in
 let currentAccount;
 
 btnLogin.addEventListener("click", function (event) {
@@ -219,31 +219,7 @@ btnLogin.addEventListener("click", function (event) {
 
 });
 
-////////// Delete User Account
-btnClose.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  if (
-    inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
-  ) {
-    const index = accounts.findIndex(function (account) {
-      return account.username === currentAccount.username;
-    });
-
-    // Delete account
-    accounts.splice(index, 1);
-
-    // Hide UI
-    containerApp.style.opacity = 0;
-  }
-
-  // clear input fields
-  inputCloseUsername.value = "";
-  inputClosePin.value = "";
-});
-
-////////// Transfers
+////////// Transfer Money
 btnTransfer.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
   event.preventDefault();
@@ -277,4 +253,54 @@ btnTransfer.addEventListener("click", function (event) {
     // update UI
     updateUI(currentAccount);
   }
+});
+
+////////// Request Loan
+btnLoan.addEventListener("click", function (event) {
+  // prevent form from submitting (page reload)
+  event.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  // bank will grant a loan if there is at least one deposit in the account with at least 10% of the requested loan amount
+  if (
+    amount > 0 &&
+    currentAccount.movements.some(function (movement) {
+      return movement >= amount * 0.10;
+    })) {
+
+    // add movement
+    currentAccount.movements.push(amount);
+
+    // update UI
+    updateUI(currentAccount);
+  }
+
+  // clear input field
+  inputLoanAmount.value = "";
+});
+
+////////// Close Account
+btnClose.addEventListener("click", function (event) {
+  // prevent form from submitting (page reload)
+  event.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(function (account) {
+      return account.username === currentAccount.username;
+    });
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+
+  // clear input fields
+  inputCloseUsername.value = "";
+  inputClosePin.value = "";
 });
