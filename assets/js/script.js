@@ -83,9 +83,11 @@ const displayMovements = function (movements, sort = false) {
 };
 
 ////////// Sort Movements
+let sorted = false;
 btnSort.addEventListener("click", function (event) {
   event.preventDefault();
-  displayMovements(currentAccount.movements, true);
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
