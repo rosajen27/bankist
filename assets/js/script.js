@@ -74,7 +74,7 @@ const displayMovements = function (movements, sort = false) {
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${index + 1}. ${type}</div>
       <div class="movements__date">DATE</div>
-      <div class="movements__value">${movement}€</div>
+      <div class="movements__value">${movement.toFixed(2)}€</div>
     </div>
     `;
     // insert new child element 'html' right after the beginning of the parent element 'containerMovements'
@@ -143,7 +143,7 @@ const calcPrintBalance = function (account) {
 
   account.balance = balance;
 
-  labelBalance.textContent = `${balance} €`
+  labelBalance.textContent = `${balance.toFixed(2)} €`
 };
 
 ////////// Take all the movement deposits - convert them from Euros to Dollars and add them all up in order to view total balance
@@ -166,7 +166,7 @@ const calcDisplaySummary = function (account) {
     return accumulator + movement
   }, 0);
 
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   // display withdrawals
   const out = account.movements.filter(function (movement) {
@@ -176,7 +176,7 @@ const calcDisplaySummary = function (account) {
   }, 0);
 
   // remove the negative sign by using the absolute value
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   // display interest
   // int = added interest
@@ -190,7 +190,7 @@ const calcDisplaySummary = function (account) {
     return accumulator + int;
   }, 0);
 
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 ////////// Update UI
