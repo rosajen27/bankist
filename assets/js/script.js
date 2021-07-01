@@ -289,9 +289,6 @@ btnLogin.addEventListener("click", function (event) {
     const min = now.getMinutes();
     labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
 
-
-
-
     // clear input fields
     inputLoginUsername.value = "";
     inputLoginPin.value = "";
@@ -333,6 +330,10 @@ btnTransfer.addEventListener("click", function (event) {
     // add amount transfered from current account to reciever account
     recieverAccount.movements.push(amount);
 
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date());
+    recieverAccount.movementsDates.push(new Date());
+
     // update UI
     updateUI(currentAccount);
   }
@@ -354,6 +355,9 @@ btnLoan.addEventListener("click", function (event) {
 
     // add movement
     currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date());
 
     // update UI
     updateUI(currentAccount);
