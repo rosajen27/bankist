@@ -105,20 +105,28 @@ const inputClosePin = document.querySelector('.form__input--pin');
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (account, sort = false) {
   // empty the entire container before adding new movements
   containerMovements.innerHTML = "";
 
   // if sort is true, sort the movements
   // use slice to create a copy so that sort does not mutate original array
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? account.movements.slice().sort((a, b) => a - b) : account.movements;
 
   movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
+
+    const date = new Date(account.movementsDates[index]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0); // because it is zero based
+    const year = date.getFullYear();
+    const displayDate = `${month}/${day}/${year}`;
+
+
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${index + 1}. ${type}</div>
-      <div class="movements__date">DATE</div>
+      <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
+      <div class="movements__date">${displayDate}</div>
       <div class="movements__value">${movement.toFixed(2)}€</div>
     </div>
     `;
@@ -241,7 +249,7 @@ const calcDisplaySummary = function (account) {
 ////////// Update UI
 const updateUI = function (account) {
   // display movements 
-  displayMovements(account.movements);
+  displayMovements(account);
 
   // display balance
   calcPrintBalance(account);
@@ -259,17 +267,6 @@ updateUI(currentAccount);
 containerApp.style.opacity = 100;
 //////////////////////////////////
 
-// Display Current Date under 'Current Balance' heading
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0); // because it is zero based
-const year = now.getFullYear();
-const hour = now.getHours();
-const min = now.getMinutes();
-labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
-
-
-
 btnLogin.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
   event.preventDefault();
@@ -282,6 +279,18 @@ btnLogin.addEventListener("click", function (event) {
     // display UI and welcome message
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
     containerApp.style.opacity = 100;
+
+    // Display Current Date under 'Current Balance' heading
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0); // because it is zero based
+    const year = now.getFullYear();
+    const hour = now.getHours();
+    const min = now.getMinutes();
+    labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
+
+
+
 
     // clear input fields
     inputLoginUsername.value = "";
