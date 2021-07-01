@@ -253,6 +253,23 @@ const updateUI = function (account) {
 ////////// Log in
 let currentAccount;
 
+// FAKE ALWAYS LOGGED IN
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+//////////////////////////////////
+
+// Display Current Date under 'Current Balance' heading
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0); // because it is zero based
+const year = now.getFullYear();
+const hour = now.getHours();
+const min = now.getMinutes();
+labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
+
+
+
 btnLogin.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
   event.preventDefault();
