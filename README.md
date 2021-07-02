@@ -1,4 +1,4 @@
-# 💸 Bankist
+# 💸 Bankist (Project under development)
 
 Bankist is a fictitious and minimalistic online banking application that allows the user to:
 
@@ -8,6 +8,8 @@ Bankist is a fictitious and minimalistic online banking application that allows 
 - Request a loan from the bank
 - Delete their account
 
+For updates, please visit my 100 days of coding log!
+https://github.com/rosajen27/100-days-of-code/blob/master/log.md
 
 ## Deployment
 
