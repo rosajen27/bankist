@@ -117,10 +117,18 @@ const displayMovements = function (account, sort = false) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(account.movementsDates[index]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0); // because it is zero based
-    const year = date.getFullYear();
-    const displayDate = `${month}/${day}/${year}`;
+    // const day = `${date.getDate()}`.padStart(2, 0);
+    // const month = `${date.getMonth() + 1}`.padStart(2, 0); // because it is zero based
+    // const year = date.getFullYear();
+    // const displayDate = `${month}/${day}/${year}`;
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    }
+    const displayDate = new Intl.DateTimeFormat(currentAccount.locale, options).format(date)
 
 
     const html = `
