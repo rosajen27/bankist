@@ -130,12 +130,17 @@ const displayMovements = function (account, sort = false) {
     }
     const displayDate = new Intl.DateTimeFormat(currentAccount.locale, options).format(date)
 
+    // internationalization of currency
+    const formattedMov = new Intl.NumberFormat(account.locale, {
+      style: "currency",
+      currency: account.currency,
+    }).format(movement);
 
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
       <div class="movements__date">${displayDate}</div>
-      <div class="movements__value">${movement.toFixed(2)}€</div>
+      <div class="movements__value">${formattedMov}</div>
     </div>
     `;
     // insert new child element 'html' right after the beginning of the parent element 'containerMovements'
@@ -197,14 +202,19 @@ const withdrawals = movements.filter(function (movement) {
 });
 
 ////////// Reduce add multiple values (deposits and withdrawals) to determine global balance of the account with an initial value of 0
-const calcPrintBalance = function (account) {
+const calcDisplayBalance = function (account) {
   const balance = account.movements.reduce(function (accumulator, currentValue, i, arr) {
     return accumulator + currentValue;
   }, 0);
 
   account.balance = balance;
 
-  labelBalance.textContent = `${balance.toFixed(2)} €`
+  const formattedBalance = new Intl.NumberFormat(account.locale, {
+    style: "currency",
+    currency: account.currency,
+  }).format(balance);
+
+  labelBalance.textContent = `${formattedBalance}`
 };
 
 ////////// Take all the movement deposits - convert them from Euros to Dollars and add them all up in order to view total balance
@@ -227,7 +237,12 @@ const calcDisplaySummary = function (account) {
     return accumulator + movement
   }, 0);
 
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  const formattedIncomes = new Intl.NumberFormat(account.locale, {
+    style: "currency",
+    currency: account.currency,
+  }).format(incomes);
+
+  labelSumIn.textContent = `${formattedIncomes}`;
 
   // display withdrawals
   const out = account.movements.filter(function (movement) {
@@ -236,8 +251,13 @@ const calcDisplaySummary = function (account) {
     return accumulator + movement
   }, 0);
 
+  const formattedOut = new Intl.NumberFormat(account.locale, {
+    style: "currency",
+    currency: account.currency,
+  }).format(out);
+
   // remove the negative sign by using the absolute value
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
+  labelSumOut.textContent = `${formattedOut}`;
 
   // display interest
   // int = added interest
@@ -251,7 +271,12 @@ const calcDisplaySummary = function (account) {
     return accumulator + int;
   }, 0);
 
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  const formattedInterest = new Intl.NumberFormat(account.locale, {
+    style: "currency",
+    currency: account.currency,
+  }).format(interest);
+
+  labelSumInterest.textContent = `${formattedInterest}`;
 };
 
 ////////// Update UI
@@ -260,7 +285,7 @@ const updateUI = function (account) {
   displayMovements(account);
 
   // display balance
-  calcPrintBalance(account);
+  calcDisplayBalance(account);
 
   // display summary
   calcDisplaySummary(account);
@@ -268,12 +293,6 @@ const updateUI = function (account) {
 
 ////////// Log in
 let currentAccount;
-
-// FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
-//////////////////////////////////
 
 btnLogin.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
