@@ -1,40 +1,6 @@
 'use strict';
 
-////////// DATA //////////
-// const account1 = {
-//   owner: 'Jonas Schmedtmann',
-//   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
-//   interestRate: 1.2, // %
-//   pin: 1111,
-// };
-
-// const account2 = {
-//   owner: 'Jessica Davis',
-//   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-//   interestRate: 1.5,
-//   pin: 2222,
-// };
-
-// const account3 = {
-//   owner: 'Steven Thomas Williams',
-//   movements: [200, -200, 340, -300, -20, 50, 400, -460],
-//   interestRate: 0.7,
-//   pin: 3333,
-// };
-
-// const account4 = {
-//   owner: 'Sarah Smith',
-//   movements: [430, 1000, 700, 50, 90],
-//   interestRate: 1,
-//   pin: 4444,
-// };
-
-// const accounts = [account1, account2, account3, account4];
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// DIFFERENT DATA! Contains movement dates, currency and locale
-
+////////// DATA 
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
@@ -102,9 +68,8 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+////////// Movements/Transactions
 const displayMovements = function (account, sort = false) {
   // empty the entire container before adding new movements
   containerMovements.innerHTML = "";
@@ -156,9 +121,7 @@ btnSort.addEventListener("click", function (event) {
   sorted = !sorted;
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+////////// Currencies
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -167,7 +130,7 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-////////// Convert 1 Euro = 1.22 USD
+////////// Conversion: 1 Euro = 1.22 USD
 const eurToUSD = 1.22;
 const movementsUSD = movements.map(function (movement) {
   return movement * eurToUSD;
@@ -291,6 +254,7 @@ const updateUI = function (account) {
   calcDisplaySummary(account);
 };
 
+////////// 5 minute Log Out Timer
 const startLogOutTimer = function () {
   // set time to 5 minutes
   let time = 300;
