@@ -293,12 +293,11 @@ btnLogin.addEventListener("click", function (event) {
       hour: "numeric",
       minute: "numeric",
       day: "numeric",
-      month: "long",
+      month: "numeric",
       year: "numeric",
-      weekday: "long"
     }
-    const locale = navigator.language;
-    labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
+    // const locale = navigator.language;
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now);
 
     // clear input fields
     inputLoginUsername.value = "";
