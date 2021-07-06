@@ -291,8 +291,34 @@ const updateUI = function (account) {
   calcDisplaySummary(account);
 };
 
+const startLogOutTimer = function () {
+  // set time to 5 minutes
+  let time = 300;
+
+  const timer = setInterval(function () {
+    // call the timer every second
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // print remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // decrease time by 1 second
+    time--;
+
+    // when 0 seconds, log out user
+    if (time === -1) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Log in to get started";
+      containerApp.style.opacity = 0;
+    };
+  }, 1000);
+
+  return timer;
+};
+
 ////////// Log in
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener("click", function (event) {
   // prevent form from submitting (page reload)
@@ -331,6 +357,11 @@ btnLogin.addEventListener("click", function (event) {
     inputLoginPin.value = "";
     inputLoginPin.blur();
 
+    // start logout timer
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
+    // update UI
     updateUI(currentAccount);
   }
 
@@ -373,6 +404,10 @@ btnTransfer.addEventListener("click", function (event) {
 
     // update UI
     updateUI(currentAccount);
+
+    // reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
