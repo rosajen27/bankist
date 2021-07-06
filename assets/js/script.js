@@ -390,14 +390,17 @@ btnLoan.addEventListener("click", function (event) {
       return movement >= amount * 0.10;
     })) {
 
-    // add movement
-    currentAccount.movements.push(amount);
+    // 3 second wait before approving loan
+    setTimeout(function () {
+      // add movement
+      currentAccount.movements.push(amount);
 
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // update UI
-    updateUI(currentAccount);
+      // update UI
+      updateUI(currentAccount);
+    }, 3000);
   }
 
   // clear input field
