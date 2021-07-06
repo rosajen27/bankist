@@ -14,6 +14,10 @@ Log in credentials:
 - username: jd | password 2222
 
 
+Bugs that still need to be fixed:
+- sorting transactions
+
+
 ## Deployment
 
 Deployed Website: https://rosajen27.github.io/bankist/
