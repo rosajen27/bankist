@@ -117,7 +117,7 @@ const displayMovements = function (account, sort = false) {
 let sorted = false;
 btnSort.addEventListener("click", function (event) {
   event.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
